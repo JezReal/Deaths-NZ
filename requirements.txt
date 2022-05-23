@@ -1,1 +1,2 @@
 pymongo~=4.1.1
+matplotlib~=3.5.2
