@@ -46,7 +46,7 @@ def get_male_deaths_from_2010():
     return result
 
 
-def get_total_deaths():
+def get_total_deaths_yearly():
     collection = get_collection()
 
     result = collection.find({}, {'_id': 0, 'Age': 0})
