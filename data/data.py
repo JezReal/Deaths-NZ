@@ -4,8 +4,8 @@ import pymongo
 
 def get_collection():
     client = pymongo.MongoClient("mongodb://localhost:27017/")
-    database = client['births_deaths']
-    collection = database['births_deaths']
+    database = client['deaths']
+    collection = database['deaths']
 
     return collection
 
