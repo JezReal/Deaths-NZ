@@ -5,4 +5,4 @@
 - Make sure that you also have a local installation of MongoDB.
 
 ## Running the script
-Start the app by running `python main.py
+Start the app by running `python main.py`
