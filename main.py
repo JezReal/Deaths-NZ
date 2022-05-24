@@ -6,8 +6,8 @@ import numpy
 
 import_data_to_database()
 
-
 ui.run()
+
 
 # Main functionality
 def cli():
@@ -195,6 +195,5 @@ def cli():
             plot.xticks(x_axis, years)
             plot.legend()
             plot.show()
-
 
 # cli()
