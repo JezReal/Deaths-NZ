@@ -7,7 +7,7 @@ import numpy
 import_data_to_database()
 
 
-# ui.run()
+ui.run()
 
 # Main functionality
 def cli():
@@ -197,4 +197,4 @@ def cli():
             plot.show()
 
 
-cli()
+# cli()
