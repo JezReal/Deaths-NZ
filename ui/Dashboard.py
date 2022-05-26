@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from data.data import get_total_deaths_yearly
+import matplotlib.pyplot as plot
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 spacing = 20
 FrameHeight = 100
@@ -7,6 +10,44 @@ FrameWeight = 250
 color1 = '#140b1e'
 color2 = '#423458'
 color3 = '#64d3b5'
+
+
+def get_total_deaths():
+    deaths = get_total_deaths_yearly()
+    deaths_sum = 0
+
+    for death in deaths:
+        deaths_sum += int(death['Count'])
+
+    return deaths_sum
+
+
+def get_graph_data():
+    deaths = get_total_deaths_yearly()
+    deaths_sum = 0
+    years = []
+    deaths_count = []
+
+    for data in deaths:
+        current_year = data['Period']
+        current_death_count = data['Count']
+
+        try:
+            if current_year != years[-1]:
+                years.append(current_year)
+                deaths_count.append(deaths_sum)
+                deaths_sum = int(current_death_count)
+            elif current_year == '2021':
+                deaths_sum += int(current_death_count)
+            else:
+                deaths_sum += int(current_death_count)
+        except IndexError:
+            years.append(current_year)
+            deaths_sum = int(current_death_count)
+
+    deaths_count.append(deaths_sum)
+
+    return {'years': years, 'deaths_count': deaths_count}
 
 
 class Dashboard(ttk.Frame):
@@ -18,6 +59,10 @@ class Dashboard(ttk.Frame):
             padding=20,
             style='New.TFrame'
         )
+        self.deaths_sum = get_total_deaths()
+        self.years = get_graph_data()['years']
+        self.deaths_count = get_graph_data()['deaths_count']
+
         self.pack_propagate(0)
 
         titleLabel = tk.Label(
@@ -29,10 +74,10 @@ class Dashboard(ttk.Frame):
         )
         titleLabel.grid(row=0, column=0, columnspan=2, pady=20)
 
-        frame1 = Frame1(self)
+        frame1 = Frame1(self, self.years, self.deaths_count)
         frame1.grid(column=0, row=1, rowspan=4, padx=(0, spacing))
 
-        frame2 = Frame2(self)
+        frame2 = Frame2(self, self.deaths_sum)
         frame2.grid(column=1, row=1, pady=(0, spacing))
 
         frame3 = Frame3(self)
@@ -46,7 +91,7 @@ class Dashboard(ttk.Frame):
 
 
 class Frame1(tk.Frame):
-    def __init__(self, container):
+    def __init__(self, container, years, deaths):
         super().__init__(
             container,
             height=465,
@@ -54,13 +99,22 @@ class Frame1(tk.Frame):
             bg=color1,
         )
         self.pack_propagate(0)
+        # label1 = tk.Label(self, text='GRAPH', bg=color1, fg=color3, font='arial 50 bold')
+        # label1.pack(expand=1, fill='both')
 
-        label1 = tk.Label(self, text='GRAPH', bg=color1, fg=color3, font='arial 50 bold')
-        label1.pack(expand=1, fill='both')
+        figure = plot.Figure(figsize=(7.6, 4))
+        canvas = FigureCanvasTkAgg(figure, container)
+        canvas.draw()
+        canvas.get_tk_widget().pack(side='left', fill='both', pady=(120, 53))
+
+        sub_plot = figure.add_subplot()
+        sub_plot.plot(years, deaths)
+        sub_plot.set_xlabel('Year')
+        sub_plot.set_ylabel('Deaths')
 
 
 class Frame2(tk.Frame):
-    def __init__(self, container):
+    def __init__(self, container, deaths_sum):
         super().__init__(
             container,
             height=FrameHeight,
@@ -69,7 +123,7 @@ class Frame2(tk.Frame):
         )
         self.pack_propagate(0)
 
-        label1 = tk.Label(self, text='100,000', bg=color1, fg=color3, font='arial 35 bold')
+        label1 = tk.Label(self, text=deaths_sum, bg=color1, fg=color3, font='arial 35 bold')
         label1.pack(expand=1, fill='both', pady=0)
         label2 = tk.Label(self, text='Total Deaths', bg=color1, font='arial 15 bold')
         label2.pack(expand=1, fill='both', )
