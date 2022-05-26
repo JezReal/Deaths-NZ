@@ -1,12 +1,12 @@
 from data.data import import_data_to_database, get_total_deaths_yearly, get_total_female_deaths, \
     get_total_deaths_by_year, get_total_male_deaths, get_total_deaths_by_age_group
 import matplotlib.pyplot as plot
-from ui import ui
+from ui import homePage
 import numpy
 
 import_data_to_database()
 
-ui.run()
+homePage.run()
 
 
 # Main functionality
