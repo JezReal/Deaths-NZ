@@ -30,16 +30,19 @@ class Page5(ttk.Frame):
         titleLabel.grid(row=0, column=0, columnspan=3, pady=(0, spacing),)
 
         frame2 = Frame2(self)
-        frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing))
+        frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing), sticky='nsew')
 
         frame3 = Frame3(self)
-        frame3.grid(column=1, row=1, padx=(0, spacing), pady=(0, spacing))
+        frame3.grid(column=1, row=1, padx=(0, spacing), pady=(0, spacing), sticky='nsew')
 
         frame4 = Frame4(self)
-        frame4.grid(column=2, row=1, pady=(0, spacing))
+        frame4.grid(column=2, row=1, pady=(0, spacing), sticky='nsew')
 
         frame1 = Frame1(self)
-        frame1.grid(column=0, row=2, columnspan=3,)
+        frame1.grid(column=0, row=2, columnspan=3, sticky='nsew')
+
+        self.columnconfigure(tuple(range(3)), weight=1)
+        self.rowconfigure(tuple(range(3)), weight=1)
 
 
 class Frame1(tk.Frame):
@@ -95,11 +98,36 @@ class Frame4(tk.Frame):
             height=FrameHeight,
             width=FrameWidth,
             bg='#140b1e',
+            padx=20,
+            pady=10
         )
         self.pack_propagate(0)
+        self.language = (
+            'Infant', '1 Year old',
+            '2 Years old', '3 Years old',
+            '4 Years old', '5 Years old',
+            '6 Years old', '7 Years old',
+            '8 Years old', '9 Years old',
+            '10 Years old', '11 Years old'
+        )
+        self.option_var = tk.StringVar(self)
+        self.create_wigets()
 
-        label1 = tk.Label(self, text='', bg=color1, fg=color3, font='arial 30 bold')
-        label1.pack(expand=1, fill='both', pady=0)
-        label2 = tk.Label(self, text='Age', bg=color1, font='arial 20 bold')
-        label2.pack(expand=1, fill='both', )
+    def create_wigets(self):
+        paddings = {'padx': 90, 'pady': 7}
+
+        option_menu = ttk.OptionMenu(
+            self,
+            self.option_var,
+            self.language[0],
+            *self.language,
+            command=self.option_changed)
+
+        option_menu.pack(fill='x', expand=1, )
+
+        label = tk.Label(self, text='Age', bg=color1, font='arial 20 bold')
+        label.pack()
+
+    def option_changed(self, *args):
+        pass
 

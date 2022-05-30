@@ -27,19 +27,19 @@ class Page2(ttk.Frame):
             bg=color2,
             pady=10,
         )
-        titleLabel.grid(row=0, column=0, columnspan=3, pady=(0, spacing),)
+        titleLabel.grid(row=0, column=0, columnspan=2, pady=(0, spacing), )
 
         frame2 = Frame2(self)
-        frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing))
+        frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing), sticky='nsew')
 
         frame3 = Frame3(self)
-        frame3.grid(column=1, row=1, padx=(0, spacing), pady=(0, spacing))
-
-        frame4 = Frame4(self)
-        frame4.grid(column=2, row=1, pady=(0, spacing))
+        frame3.grid(column=1, row=1, pady=(0, spacing), sticky='nsew')
 
         frame1 = Frame1(self)
-        frame1.grid(column=0, row=2, columnspan=3,)
+        frame1.grid(column=0, row=2, columnspan=2, sticky='nsew')
+
+        self.columnconfigure(tuple(range(3)), weight=1)
+        self.rowconfigure(tuple(range(3)), weight=1)
 
 
 class Frame1(tk.Frame):
@@ -47,13 +47,15 @@ class Frame1(tk.Frame):
         super().__init__(
             container,
             height=450,
-            width=FrameWidth*3+(spacing*2),
+            width=FrameWidth * 3 + (spacing * 2),
             bg=color1,
         )
         self.pack_propagate(0)
 
-        label1 = tk.Label(self, text='GRAPH', bg=color1, fg=color3, font='arial 50 bold')
-        label1.pack(expand=1, fill='both')
+        label1 = tk.Label(self, text='100,000', bg=color1, fg=color3, font='arial 100 bold')
+        label1.pack(expand=1, fill='both', pady=0)
+        label2 = tk.Label(self, text='Total Deaths', bg=color1, fg='pink', font='arial 50 bold')
+        label2.pack(expand=1, fill='both', )
 
 
 class Frame2(tk.Frame):
@@ -62,33 +64,41 @@ class Frame2(tk.Frame):
             container,
             height=FrameHeight,
             width=FrameWidth,
-            bg=color1,
+            bg='#140b1e',
+            padx=20,
+            pady=10
         )
         self.pack_propagate(0)
+        self.language = (
+            '2010', '2011',
+            '2012', '2013',
+            '2014', '2015',
+            '2016', '2017',
+            '2018', '2019',
+            '2020', '2021'
+        )
+        self.option_var = tk.StringVar(self)
+        self.create_wigets()
 
-        label1 = tk.Label(self, text='100,000', bg=color1, fg=color3, font='arial 35 bold')
-        label1.pack(expand=1, fill='both', pady=0)
-        label2 = tk.Label(self, text='Total Deaths', bg=color1, font='arial 20 bold')
-        label2.pack(expand=1, fill='both', )
+    def create_wigets(self):
+        paddings = {'padx': 90, 'pady': 7}
 
+        option_menu = ttk.OptionMenu(
+            self,
+            self.option_var,
+            self.language[0],
+            *self.language,
+            command=self.option_changed)
+
+        option_menu.pack(fill='x', expand=1, )
+
+        label = tk.Label(self, text='Year', bg=color1, font='arial 20 bold')
+        label.pack()
+
+    def option_changed(self, *args):
+        pass
 
 class Frame3(tk.Frame):
-    def __init__(self, container):
-        super().__init__(
-            container,
-            height=FrameHeight,
-            width=FrameWidth,
-            bg='#140b1e',
-        )
-        self.pack_propagate(0)
-
-        label1 = tk.Label(self, text='2010-2021', bg=color1, fg=color3, font='arial 35 bold')
-        label1.pack(expand=1, fill='both', pady=0)
-        label2 = tk.Label(self, text='Year', bg=color1, font='arial 20 bold')
-        label2.pack(expand=1, fill='both', )
-
-
-class Frame4(tk.Frame):
     def __init__(self, container):
         super().__init__(
             container,
@@ -102,4 +112,3 @@ class Frame4(tk.Frame):
         label1.pack(expand=1, fill='both', pady=0)
         label2 = tk.Label(self, text='Gender', bg=color1, font='arial 20 bold')
         label2.pack(expand=1, fill='both', )
-

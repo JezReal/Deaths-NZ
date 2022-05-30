@@ -75,19 +75,22 @@ class Dashboard(ttk.Frame):
         titleLabel.grid(row=0, column=0, columnspan=2, pady=20)
 
         frame1 = Frame1(self, self.years, self.deaths_count)
-        frame1.grid(column=0, row=1, rowspan=4, padx=(0, spacing))
+        frame1.grid(column=0, row=1, rowspan=4, padx=(0, spacing), sticky='nsew')
 
         frame2 = Frame2(self, self.deaths_sum)
-        frame2.grid(column=1, row=1, pady=(0, spacing))
+        frame2.grid(column=1, row=1, pady=(0, spacing), sticky='nsew')
 
         frame3 = Frame3(self)
-        frame3.grid(column=1, row=2, pady=(0, spacing))
+        frame3.grid(column=1, row=2, pady=(0, spacing), sticky='nsew')
 
         frame4 = Frame4(self)
-        frame4.grid(column=1, row=3, pady=(0, spacing))
+        frame4.grid(column=1, row=3, pady=(0, spacing), sticky='nsew')
 
         frame5 = Frame5(self)
-        frame5.grid(column=1, row=4, )
+        frame5.grid(column=1, row=4, sticky='nsew')
+
+        self.columnconfigure(tuple(range(2)), weight=1)
+        self.rowconfigure(tuple(range(5)), weight=1)
 
 
 class Frame1(tk.Frame):
@@ -103,9 +106,9 @@ class Frame1(tk.Frame):
         # label1.pack(expand=1, fill='both')
 
         figure = plot.Figure(figsize=(7.6, 4))
-        canvas = FigureCanvasTkAgg(figure, container)
+        canvas = FigureCanvasTkAgg(figure, self)
         canvas.draw()
-        canvas.get_tk_widget().pack(side='left', fill='both', pady=(120, 53))
+        canvas.get_tk_widget().pack(expand=1, fill='both')
 
         sub_plot = figure.add_subplot()
         sub_plot.plot(years, deaths)

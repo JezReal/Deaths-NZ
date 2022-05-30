@@ -30,16 +30,19 @@ class Page3(ttk.Frame):
         titleLabel.grid(row=0, column=0, columnspan=3, pady=(0, spacing),)
 
         frame2 = Frame2(self)
-        frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing))
+        frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing), sticky='nsew')
 
         frame3 = Frame3(self)
-        frame3.grid(column=1, row=1, padx=(0, spacing), pady=(0, spacing))
+        frame3.grid(column=1, row=1, padx=(0, spacing), pady=(0, spacing), sticky='nsew')
 
         frame4 = Frame4(self)
-        frame4.grid(column=2, row=1, pady=(0, spacing))
+        frame4.grid(column=2, row=1, pady=(0, spacing), sticky='nsew')
 
         frame1 = Frame1(self)
-        frame1.grid(column=0, row=2, columnspan=3,)
+        frame1.grid(column=0, row=2, columnspan=3, sticky='nsew')
+
+        self.columnconfigure(tuple(range(3)), weight=1)
+        self.rowconfigure(tuple(range(3)), weight=1)
 
 
 class Frame1(tk.Frame):
