@@ -32,22 +32,22 @@ class Page2(ttk.Frame):
 
         frame2 = Frame2(self)
         frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing), sticky='nsew')
-        bind_event_data(frame2, '<<CustomEvent>>', self.frame1_callback)
+        bind_event_data(frame2, '<<CustomEvent>>', self.frame2_callback)
 
         frame3 = Frame3(self)
         frame3.grid(column=1, row=1, pady=(0, spacing), sticky='nsew')
 
-        frame1 = Frame1(self)
-        frame1.grid(column=0, row=2, columnspan=2, sticky='nsew')
+        self.frame1 = Frame1(self)
+        self.frame1.grid(column=0, row=2, columnspan=2, sticky='nsew')
+        # self.frame1.update_label(101)
 
         self.columnconfigure(tuple(range(3)), weight=1)
         self.rowconfigure(tuple(range(3)), weight=1)
 
     # data returned from callback should be accessed here
-    def frame1_callback(self, event):
+    def frame2_callback(self, event):
         print(event.data['year'])
-        # set proper label text here.
-        # maybe another callback?
+        self.frame1.update_label(event.data['year'])
 
 
 class Frame1(tk.Frame):
@@ -63,14 +63,24 @@ class Frame1(tk.Frame):
         )
         self.pack_propagate(0)
 
-        label1 = tk.Label(self, text=Frame1.deaths_count, bg=color1, fg=color3, font='arial 100 bold')
-        label1.pack(expand=1, fill='both', pady=0)
+        self.label1 = tk.Label(self, text=Frame1.deaths_count, bg=color1, fg=color3, font='arial 100 bold')
+        self.label1.pack(expand=1, fill='both', pady=0)
         label2 = tk.Label(self, text='Total Deaths', bg=color1, fg='pink', font='arial 50 bold')
         label2.pack(expand=1, fill='both', )
 
+    def update_label(self, year):
+        deaths = Frame1.get_total_deaths(year)
+        self.label1['text'] = deaths
+
     @staticmethod
-    def update_label(deaths_count):
-        Frame1.deaths_count = deaths_count
+    def get_total_deaths(year):
+        deaths_sum = 0
+        deaths = get_total_deaths_by_year(year)
+
+        for death in deaths:
+            deaths_sum += int(death['Count'])
+
+        return deaths_sum
 
 
 class Frame2(tk.Frame):
