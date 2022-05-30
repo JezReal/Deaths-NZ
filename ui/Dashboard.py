@@ -59,9 +59,6 @@ class Dashboard(ttk.Frame):
             padding=20,
             style='New.TFrame'
         )
-        self.deaths_sum = get_total_deaths()
-        self.years = get_graph_data()['years']
-        self.deaths_count = get_graph_data()['deaths_count']
 
         self.pack_propagate(0)
 
@@ -74,10 +71,10 @@ class Dashboard(ttk.Frame):
         )
         titleLabel.grid(row=0, column=0, columnspan=2, pady=20)
 
-        frame1 = Frame1(self, self.years, self.deaths_count)
+        frame1 = Frame1(self)
         frame1.grid(column=0, row=1, rowspan=4, padx=(0, spacing), sticky='nsew')
 
-        frame2 = Frame2(self, self.deaths_sum)
+        frame2 = Frame2(self)
         frame2.grid(column=1, row=1, pady=(0, spacing), sticky='nsew')
 
         frame3 = Frame3(self)
@@ -94,13 +91,15 @@ class Dashboard(ttk.Frame):
 
 
 class Frame1(tk.Frame):
-    def __init__(self, container, years, deaths):
+    def __init__(self, container):
         super().__init__(
             container,
             height=465,
             width=760,
             bg=color1,
         )
+        self.years = get_graph_data()['years']
+        self.deaths_count = get_graph_data()['deaths_count']
         self.pack_propagate(0)
         # label1 = tk.Label(self, text='GRAPH', bg=color1, fg=color3, font='arial 50 bold')
         # label1.pack(expand=1, fill='both')
@@ -111,22 +110,23 @@ class Frame1(tk.Frame):
         canvas.get_tk_widget().pack(expand=1, fill='both')
 
         sub_plot = figure.add_subplot()
-        sub_plot.plot(years, deaths)
+        sub_plot.plot(self.years, self.deaths_count)
         sub_plot.set_xlabel('Year')
         sub_plot.set_ylabel('Deaths')
 
 
 class Frame2(tk.Frame):
-    def __init__(self, container, deaths_sum):
+    def __init__(self, container):
         super().__init__(
             container,
             height=FrameHeight,
             width=FrameWeight,
             bg=color1,
         )
+        self.deaths_sum = get_total_deaths()
         self.pack_propagate(0)
 
-        label1 = tk.Label(self, text=deaths_sum, bg=color1, fg=color3, font='arial 35 bold')
+        label1 = tk.Label(self, text=self.deaths_sum, bg=color1, fg=color3, font='arial 35 bold')
         label1.pack(expand=1, fill='both', pady=0)
         label2 = tk.Label(self, text='Total Deaths', bg=color1, font='arial 15 bold')
         label2.pack(expand=1, fill='both', )
