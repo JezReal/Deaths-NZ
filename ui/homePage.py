@@ -13,7 +13,7 @@ def run():
     root.tk.call('source', 'theme/forest-dark.tcl')
     ttk.Style().theme_use('forest-dark')
     root.geometry('1080x720')
-    root.title('Python project baby')
+    root.title('Deaths-NZ')
     style = ttk.Style(root)
     style.configure('New.TFrame', background="#423458")
 
