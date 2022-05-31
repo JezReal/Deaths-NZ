@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk
+from data.data import get_total_female_deaths
 
 spacing = 20
 FrameHeight = 100
@@ -27,7 +28,7 @@ class Page4(ttk.Frame):
             bg=color2,
             pady=10,
         )
-        titleLabel.grid(row=0, column=0, columnspan=3, pady=(0, spacing),)
+        titleLabel.grid(row=0, column=0, columnspan=3, pady=(0, spacing), )
 
         frame2 = Frame2(self)
         frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing), sticky='nsew')
@@ -50,7 +51,7 @@ class Frame1(tk.Frame):
         super().__init__(
             container,
             height=450,
-            width=FrameWidth*3+(spacing*2),
+            width=FrameWidth * 3 + (spacing * 2),
             bg=color1,
         )
         self.pack_propagate(0)
@@ -67,9 +68,10 @@ class Frame2(tk.Frame):
             width=FrameWidth,
             bg=color1,
         )
+        self.female_deaths_sum = get_total_deaths()
         self.pack_propagate(0)
 
-        label1 = tk.Label(self, text='100,000', bg=color1, fg=color3, font='arial 35 bold')
+        label1 = tk.Label(self, text=self.female_deaths_sum, bg=color1, fg=color3, font='arial 35 bold')
         label1.pack(expand=1, fill='both', pady=0)
         label2 = tk.Label(self, text='Total Deaths', bg=color1, font='arial 20 bold')
         label2.pack(expand=1, fill='both', )
@@ -131,3 +133,12 @@ class Frame4(tk.Frame):
     def option_changed(self, *args):
         pass
 
+
+def get_total_deaths():
+    deaths = get_total_female_deaths()
+    deaths_sum = 0
+
+    for death in deaths:
+        deaths_sum += int(death['Count'])
+
+    return deaths_sum

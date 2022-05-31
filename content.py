@@ -191,4 +191,4 @@ def cli():
             plot.legend()
             plot.show()
 
-# cli()
+cli()

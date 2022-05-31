@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import ttk
-from data.data import get_total_male_deaths
 
 spacing = 20
 FrameHeight = 100
@@ -10,7 +9,7 @@ color2 = '#423458'
 color3 = '#64d3b5'
 
 
-class Page3(ttk.Frame):
+class Page5(ttk.Frame):
     def __init__(self, container):
         super().__init__(
             container,
@@ -24,11 +23,11 @@ class Page3(ttk.Frame):
         titleLabel = tk.Label(
             self,
             font='arial 20 bold',
-            text='Total Male Deaths from 2010-2021',
+            text='Total Male and Female Deaths from 2010-2021 by Age',
             bg=color2,
             pady=10,
         )
-        titleLabel.grid(row=0, column=0, columnspan=3, pady=(0, spacing), )
+        titleLabel.grid(row=0, column=0, columnspan=3, pady=(0, spacing),)
 
         frame2 = Frame2(self)
         frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing), sticky='nsew')
@@ -51,7 +50,7 @@ class Frame1(tk.Frame):
         super().__init__(
             container,
             height=450,
-            width=FrameWidth * 3 + (spacing * 2),
+            width=FrameWidth*3+(spacing*2),
             bg=color1,
         )
         self.pack_propagate(0)
@@ -68,10 +67,9 @@ class Frame2(tk.Frame):
             width=FrameWidth,
             bg=color1,
         )
-        self.male_deaths_sum = get_total_deaths()
         self.pack_propagate(0)
 
-        label1 = tk.Label(self, text=self.male_deaths_sum, bg=color1, fg=color3, font='arial 35 bold')
+        label1 = tk.Label(self, text='100,000', bg=color1, fg=color3, font='arial 35 bold')
         label1.pack(expand=1, fill='both', pady=0)
         label2 = tk.Label(self, text='Total Deaths', bg=color1, font='arial 20 bold')
         label2.pack(expand=1, fill='both', )
@@ -104,7 +102,14 @@ class Frame4(tk.Frame):
             pady=10
         )
         self.pack_propagate(0)
-        self.language = ('Male', 'Female',)
+        self.language = (
+            'Infant', '1 Year old',
+            '2 Years old', '3 Years old',
+            '4 Years old', '5 Years old',
+            '6 Years old', '7 Years old',
+            '8 Years old', '9 Years old',
+            '10 Years old', '11 Years old'
+        )
         self.option_var = tk.StringVar(self)
         self.create_wigets()
 
@@ -120,18 +125,9 @@ class Frame4(tk.Frame):
 
         option_menu.pack(fill='x', expand=1, )
 
-        label = tk.Label(self, text='Gender', bg=color1, font='arial 20 bold')
+        label = tk.Label(self, text='Age', bg=color1, font='arial 20 bold')
         label.pack()
 
     def option_changed(self, *args):
         pass
 
-
-def get_total_deaths():
-    deaths = get_total_male_deaths()
-    deaths_sum = 0
-
-    for death in deaths:
-        deaths_sum += int(death['Count'])
-
-    return deaths_sum
