@@ -98,11 +98,29 @@ class Frame4(tk.Frame):
             height=FrameHeight,
             width=FrameWidth,
             bg='#140b1e',
+            padx=20,
+            pady=10
         )
         self.pack_propagate(0)
+        self.language = ('Male', 'Female',)
+        self.option_var = tk.StringVar(self)
+        self.create_wigets()
 
-        label1 = tk.Label(self, text='Male', bg=color1, fg=color3, font='arial 30 bold')
-        label1.pack(expand=1, fill='both', pady=0)
-        label2 = tk.Label(self, text='Gender', bg=color1, font='arial 20 bold')
-        label2.pack(expand=1, fill='both', )
+    def create_wigets(self):
+        paddings = {'padx': 90, 'pady': 7}
+
+        option_menu = ttk.OptionMenu(
+            self,
+            self.option_var,
+            self.language[0],
+            *self.language,
+            command=self.option_changed)
+
+        option_menu.pack(fill='x', expand=1, )
+
+        label = tk.Label(self, text='Gender', bg=color1, font='arial 20 bold')
+        label.pack()
+
+    def option_changed(self, *args):
+        pass
 

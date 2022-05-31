@@ -3,7 +3,6 @@ from tkinter import ttk
 from ui.Page2 import Page2
 from ui.Page3 import Page3
 from ui.Page4 import Page4
-from ui.Page5 import Page5
 from ui.Dashboard import Dashboard
 
 
@@ -23,12 +22,10 @@ def run():
     page2 = Page2(tabs)
     page3 = Page3(tabs)
     page4 = Page4(tabs)
-    page5 = Page5(tabs)
     tabs.add(dashboard, text='Dashboard')
     tabs.add(page2, text='page2')
     tabs.add(page3, text='page3')
     tabs.add(page4, text='page4')
-    tabs.add(page5, text='page4')
 
     tabs.pack(expand=1, fill="both")
 

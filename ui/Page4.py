@@ -23,7 +23,7 @@ class Page4(ttk.Frame):
         titleLabel = tk.Label(
             self,
             font='arial 20 bold',
-            text='Total Female Deaths from 2010-2021',
+            text='Total Male and Female Deaths from 2010-2021 by Age',
             bg=color2,
             pady=10,
         )
@@ -98,11 +98,36 @@ class Frame4(tk.Frame):
             height=FrameHeight,
             width=FrameWidth,
             bg='#140b1e',
+            padx=20,
+            pady=10
         )
         self.pack_propagate(0)
+        self.language = (
+            'Infant', '1 Year old',
+            '2 Years old', '3 Years old',
+            '4 Years old', '5 Years old',
+            '6 Years old', '7 Years old',
+            '8 Years old', '9 Years old',
+            '10 Years old', '11 Years old'
+        )
+        self.option_var = tk.StringVar(self)
+        self.create_wigets()
 
-        label1 = tk.Label(self, text='Female', bg=color1, fg=color3, font='arial 30 bold')
-        label1.pack(expand=1, fill='both', pady=0)
-        label2 = tk.Label(self, text='Gender', bg=color1, font='arial 20 bold')
-        label2.pack(expand=1, fill='both', )
+    def create_wigets(self):
+        paddings = {'padx': 90, 'pady': 7}
+
+        option_menu = ttk.OptionMenu(
+            self,
+            self.option_var,
+            self.language[0],
+            *self.language,
+            command=self.option_changed)
+
+        option_menu.pack(fill='x', expand=1, )
+
+        label = tk.Label(self, text='Age', bg=color1, font='arial 20 bold')
+        label.pack()
+
+    def option_changed(self, *args):
+        pass
 
