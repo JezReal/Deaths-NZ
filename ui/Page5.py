@@ -27,7 +27,7 @@ class Page5(ttk.Frame):
             bg=color2,
             pady=10,
         )
-        titleLabel.grid(row=0, column=0, columnspan=3, pady=(0, spacing),)
+        titleLabel.grid(row=0, column=0, columnspan=3, pady=(0, spacing), )
 
         frame2 = Frame2(self)
         frame2.grid(column=0, row=1, padx=(0, spacing), pady=(0, spacing), sticky='nsew')
@@ -50,7 +50,7 @@ class Frame1(tk.Frame):
         super().__init__(
             container,
             height=450,
-            width=FrameWidth*3+(spacing*2),
+            width=FrameWidth * 3 + (spacing * 2),
             bg=color1,
         )
         self.pack_propagate(0)
@@ -103,12 +103,17 @@ class Frame4(tk.Frame):
         )
         self.pack_propagate(0)
         self.language = (
-            'Infant', '1 Year old',
-            '2 Years old', '3 Years old',
-            '4 Years old', '5 Years old',
-            '6 Years old', '7 Years old',
-            '8 Years old', '9 Years old',
-            '10 Years old', '11 Years old'
+            'Infant', '1-4 years old',
+            '5-9 years old', '10-14 years old',
+            '15-19 years old', '20-24 years old',
+            '25-29 years old', '30-34 years old',
+            '35-39 years old', '40-44 years old',
+            '45-49 years old', '50-54 years old',
+            '55-59 years old', '60-64 years old',
+            '65-69 years old', '70-74 years old',
+            '75-79 years old', '80-84 years old',
+            '85-89 years old', '90-94 years old',
+            '95-99 years old', '100 and over'
         )
         self.option_var = tk.StringVar(self)
         self.create_wigets()
@@ -130,4 +135,3 @@ class Frame4(tk.Frame):
 
     def option_changed(self, *args):
         pass
-
