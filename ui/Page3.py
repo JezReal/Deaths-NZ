@@ -176,3 +176,7 @@ def event_listen(widget, sequence, func, add=None):
     funcid = widget._register(func, _substitute, needcleanup=1)
     cmd = '{0}if {{"[{1} %d]" == "break"}} break\n'.format('+' if add else '', funcid)
     widget.tk.call('bind', widget._w, sequence, cmd)
+
+
+def get_graph_data(gender):
+    pass
