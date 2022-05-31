@@ -46,7 +46,6 @@ class Page2(ttk.Frame):
 
     # data returned from callback should be accessed here
     def frame2_callback(self, event):
-        print(event.data['year'])
         self.frame1.update_label(event.data['year'])
 
 
