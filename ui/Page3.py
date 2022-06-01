@@ -172,9 +172,6 @@ class Frame4(tk.Frame):
         label = tk.Label(self, text='Gender', bg=color1, font='arial 20 bold')
         label.pack()
 
-    def option_changed(self, *args):
-        pass
-
     def select_callback(self, event):
         self.selected_gender = self.option_var.get()
 
