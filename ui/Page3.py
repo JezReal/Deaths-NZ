@@ -41,7 +41,7 @@ class Page3(ttk.Frame):
 
         frame4 = Frame4(self)
         frame4.grid(column=2, row=1, pady=(0, spacing), sticky='nsew')
-        bind_event_data(frame4, '<<CustomEvent>>', self.custom_event_callback)
+        bind_event_data(frame4, '<<GenderSelectEvent>>', self.custom_event_callback)
 
         self.frame1 = Frame1(self)
         self.frame1.grid(column=0, row=2, columnspan=3, sticky='nsew')
@@ -177,10 +177,10 @@ class Frame4(tk.Frame):
 
     def create_virtual_event(self, varname, idx, mode):
         self.option_menu.event_generate('<<OptionMenuChanged>>')
-        self.generate_custom_event()
+        self.generate_gender_select_event()
 
-    def generate_custom_event(self):
-        self.event_generate('<<CustomEvent>>', data={'gender': self.selected_gender})
+    def generate_gender_select_event(self):
+        self.event_generate('<<GenderSelectEvent>>', data={'gender': self.selected_gender})
 
 
 def get_total_deaths(gender):
