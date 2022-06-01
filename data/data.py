@@ -18,7 +18,7 @@ def import_data_to_database():
     collection = get_collection()
     data = []
 
-    with open('bd-dec21-deaths-by-sex-and-age.csv') as csv_file:
+    with open('bd-dec21-deaths-by-sex-and-age-updated.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
 
