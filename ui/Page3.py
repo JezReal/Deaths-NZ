@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk
 from data.data import get_total_male_deaths, get_total_female_deaths
 from ui.Page2 import bind_event_data
+import matplotlib.pyplot as plot
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 spacing = 20
 FrameHeight = 100
@@ -41,14 +43,20 @@ class Page3(ttk.Frame):
         frame4.grid(column=2, row=1, pady=(0, spacing), sticky='nsew')
         bind_event_data(frame4, '<<CustomEvent>>', self.custom_event_callback)
 
-        frame1 = Frame1(self)
-        frame1.grid(column=0, row=2, columnspan=3, sticky='nsew')
+        self.frame1 = Frame1(self)
+        self.frame1.grid(column=0, row=2, columnspan=3, sticky='nsew')
+        bind_event_data(self.frame1, '<<RefreshEvent>>', self.refresh_page)
 
         self.columnconfigure(tuple(range(3)), weight=1)
         self.rowconfigure(tuple(range(3)), weight=1)
 
     def custom_event_callback(self, event):
-        self.frame2.update_death_count(event.data['gender'])
+        selected_gender = event.data['gender']
+        self.frame2.update_death_count(selected_gender)
+        self.frame1.set_graph(selected_gender)
+
+    def refresh_page(self, event):
+        self.event_generate('<<RefreshEvent>>', data={'hello': 'world'})
 
 
 class Frame1(tk.Frame):
@@ -61,8 +69,34 @@ class Frame1(tk.Frame):
         )
         self.pack_propagate(0)
 
-        label1 = tk.Label(self, text='GRAPH', bg=color1, fg=color3, font='arial 50 bold')
-        label1.pack(expand=1, fill='both')
+        self.figure = plot.Figure()
+        self.canvas = FigureCanvasTkAgg(self.figure, self)
+        self.sub_plot = self.figure.add_subplot()
+
+        self.set_graph('Male')
+        # label1 = tk.Label(self, text='GRAPH', bg=color1, fg=color3, font='arial 50 bold')
+        # label1.pack(expand=1, fill='both')
+
+    def set_graph(self, gender):
+        self.sub_plot.clear()
+
+        data = get_graph_data(gender)
+        years = data['years']
+        deaths = data['deaths_count']
+
+        self.figure.set_canvas(self.canvas)
+        self.canvas.draw()
+
+        self.sub_plot.plot(years, deaths)
+        self.sub_plot.set_xlabel('Year')
+        self.sub_plot.set_ylabel('Deaths')
+
+        self.refresh_frame()
+        self.canvas.get_tk_widget().pack(expand=1, fill='both')
+
+    def refresh_frame(self):
+        # emit an event
+        self.event_generate('<<RefreshEvent>>', data={})
 
 
 class Frame2(tk.Frame):
@@ -179,4 +213,32 @@ def event_listen(widget, sequence, func, add=None):
 
 
 def get_graph_data(gender):
-    pass
+    deaths_sum = 0
+    years = []
+    deaths_count = []
+
+    if gender == 'Male':
+        deaths = get_total_male_deaths()
+    else:
+        deaths = get_total_female_deaths()
+
+    for death in deaths:
+        current_year = death['Period']
+        current_death_count = death['Count']
+
+        try:
+            if current_year != years[-1]:
+                years.append(current_year)
+                deaths_count.append(deaths_sum)
+                deaths_sum = int(current_death_count)
+            elif current_year == '2021':
+                deaths_sum += int(current_death_count)
+            else:
+                deaths_sum += int(current_death_count)
+        except IndexError:
+            years.append(current_year)
+            deaths_sum = int(current_death_count)
+
+    deaths_count.append(deaths_sum)
+
+    return {'years': years, 'deaths_count': deaths_count}
