@@ -197,18 +197,6 @@ def get_total_deaths(gender):
     return deaths_sum
 
 
-def event_listen(widget, sequence, func, add=None):
-    def _substitute(*args):
-        e = lambda: None  # simplest object with __dict__
-        e.data = eval(args[0])
-        e.widget = widget
-        return (e,)
-
-    funcid = widget._register(func, _substitute, needcleanup=1)
-    cmd = '{0}if {{"[{1} %d]" == "break"}} break\n'.format('+' if add else '', funcid)
-    widget.tk.call('bind', widget._w, sequence, cmd)
-
-
 def get_graph_data(gender):
     deaths_sum = 0
     years = []
