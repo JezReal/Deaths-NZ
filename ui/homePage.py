@@ -26,6 +26,7 @@ def run():
     page3 = Page3(tabs)
     bind_event_data(page3, '<<RefreshEvent>>', resize_window)
     page4 = Page4(tabs)
+    bind_event_data(page4, '<<RefreshEvent>>', resize_window)
     tabs.add(dashboard, text='Dashboard')
     tabs.add(page2, text='page2')
     tabs.add(page3, text='page3')
