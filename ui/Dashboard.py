@@ -98,13 +98,14 @@ class Frame1(tk.Frame):
             width=760,
             bg=color1,
         )
-        self.years = get_graph_data()['years']
-        self.deaths_count = get_graph_data()['deaths_count']
+        self.data = get_graph_data()
+        self.years = self.data['years']
+        self.deaths_count = self.data['deaths_count']
         self.pack_propagate(0)
         # label1 = tk.Label(self, text='GRAPH', bg=color1, fg=color3, font='arial 50 bold')
         # label1.pack(expand=1, fill='both')
 
-        figure = plot.Figure(figsize=(7.6, 4))
+        figure = plot.Figure()
         canvas = FigureCanvasTkAgg(figure, self)
         canvas.draw()
         canvas.get_tk_widget().pack(expand=1, fill='both')
